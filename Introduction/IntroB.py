@@ -4,11 +4,10 @@ store = None
 res = 0
 
 for i in range(q):
-    if (store == None):
-        store = input()
-    else:
-        if (input() == store):
-            res+=1
+    inp = input()
+    if (inp == store):
+        res+=1
+    store = inp
 
 print(res)
 
