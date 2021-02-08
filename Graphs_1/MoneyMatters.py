@@ -63,6 +63,17 @@ for _ in range(remaining_friendships):
 
 ## Result ## 
 
+# FEIL
+"""
+5 0
+100
+-75
+-25
+-42
+42
+Blir possible???
+"""
+
 if calculatePossibility(friendship_graph, friend_owes):
     print("POSSIBLE")
 else:
