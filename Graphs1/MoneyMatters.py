@@ -60,6 +60,7 @@ for _ in range(remaining_friendships):
     friends.append(x)
     friendship_graph[y] = friends
 
+print(friendship_graph)
 
 ## Result ## 
 
