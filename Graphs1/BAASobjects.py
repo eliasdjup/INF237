@@ -23,7 +23,6 @@ for i in range(0,N):
         c = [x-1 for x in ctemp[1:][:]]
         a[i] = Node(i,temp[i],c)
 
-
 #Finding the paths from root to tail
 paths=[]
 def traverse(a, n, store):
@@ -34,7 +33,7 @@ def traverse(a, n, store):
         for j in n.c:
             t = store+[n.id]
             traverse(a, a[j],t)
-        
+
 traverse(a, a[N-1], [])
 
 #Finding the path with the highest sum. The node to be changed to 0, must be a part of this path
