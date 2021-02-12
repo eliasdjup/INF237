@@ -13,15 +13,29 @@ for i in range(0,N):
             a[n-1] = [i]
 a[N-1]=[]
 
-
-print(a)
-
 #Finding paths from root to end node
 def traverse(a):
-    return
+    path = []
+    stack = [(0, path)]
+    paths = []
+    while len(stack) != 0:
+        current, currentpath = stack.pop()
+        
+        if current in currentpath:
+            continue
+        currentpath.append(current)
 
+        if (current == N-1):
+            paths.append(currentpath)
+            continue
 
-t = [[0,1,3,5],[0,2,3,5],[0,2,4,5]]
+        for neighbour in a[current]:
+            if neighbour not in currentpath:
+                stack.append((neighbour, currentpath.copy()))
+
+    return paths
+
+t = traverse(a)
 
 #Finding the values of the paths
 def path_sum(paths, values):
@@ -46,7 +60,3 @@ def node_to_zero():
     return res
 
 print(node_to_zero())
-
-
-
-
