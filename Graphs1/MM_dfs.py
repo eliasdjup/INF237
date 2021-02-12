@@ -43,7 +43,6 @@ def dfs(current_node, visited, graph, reachable_nodes = []):
         visited.add(current_node)
         for neighbour in graph[current_node]:
             dfs(neighbour, visited, graph, reachable_nodes)
-
     return reachable_nodes
 
 
