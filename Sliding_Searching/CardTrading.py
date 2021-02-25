@@ -1,33 +1,35 @@
 
+N, T, K = map(int,input().split())
+deck_list = map(int,input().split())
 
-from collections import Counter
+buy_sell = []
+for i in range(T):
+    buy_price, sell_price = map(int, input().split())
+    buy_sell.append((buy_price, sell_price))
 
-def kcombo(cardDeck):
-    counterz = Counter(cardDeck)
-    # TODO
-    #check if there are at least 2 values for k distinct
-    #card
-    return False
+#sorted_prices = sorted(buy_sell, key=lambda x: x[0])
+#print(buy_sell)
+#print(sorted_prices)
 
-deck, cards, combos = [int(i) for i in input().split()]
+#print(sorted_prices)
+# Transactions
+# Buy up to two cards of a type
+# Sell all cards of a type
+kombos = 0
+deck = {}
+value = 0
+for i in deck_list:
+    count = deck.get(i,0)
+    count += 1
+    deck[i] = count
+    if count >= K:
+        kombos += 1
 
-cardDeck = [int(i) for i in input().split()]
-print(cardDeck)
+potential_per_transaction = []
+for i, e in deck.items():
+    buy, sell = buy_sell[i-1]
+    potential_per_transaction.append((i, buy*e, sell*e))
 
-cardSellBuy = []
-for x in range(0, cards):
-    buy, sell = [int(i) for i in input().split()]
 
-    cardSellBuy.append((buy,sell))
+#print(potential_per_transaction.sort(lambda x: x[2]))
 
-print(" maxSell {} cardSell {} minBuy {} cardBuy {}".format(maxSell, cardSell, minBuy, cardBuy))
-
-combo = False
-money = 0
-maxMoney = 0
-while (not combo): #while combo is not reached
-    for i in cardSellBuy:
-        money -= cardSellBuy[i][1]
-        cardDeck.remove(i+1)    
-
-    combo = kcombo(cardDeck)
