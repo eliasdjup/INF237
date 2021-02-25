@@ -2,7 +2,6 @@ class Node:
     def __init__(self, id, value, c):
         self.id = id
         self.value = value
-        self.c = c
     def __repr__(self):
         return "Node(id:"+str(self.id)+",value:"+str(self.value)+",connected_to"+str(self.c)+")"
     def __str__(self):
