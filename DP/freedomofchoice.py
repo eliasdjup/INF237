@@ -42,16 +42,41 @@ if __name__ == '__main__':
 '''
 
 def find_possible_paths(height, width, data):
+    data = list(reversed(data)) # Top row now equals bottom row
     empty = [[0]*width for i in range(height)]
-    
 
-    return
+    for i in range(height):
+        if not data[i][0]:
+            break
+        empty[i][0] = 1
+    
+    for j in range(1, width):
+        s = 0
+        ss = 0
+
+        for i in range(height):
+            if data[i][j]:
+                ss += empty[i][j-1]
+                continue
+            for k in range(s, i):
+                empty[k][j] = ss
+            s = j + 1
+            ss = 0
+
+        for k in range(s, height):
+            empty[k][j] = s
+        
+        print(empty)
+        return empty[-1][-1]
+
+
+    #return
 
 
 h,w = map(int, input().split())
 
 while h or w:
     grid = [[x == '.' for x in input()] for _ in range(h)]
-    print(grid)
+    print(find_possible_paths(h,w,grid))
     h,w= map(int, input().split())
 
