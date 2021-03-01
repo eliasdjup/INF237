@@ -7,6 +7,7 @@ if n == 0:
 train_carts = []
 for x in range(0,n):
     train_carts.append(int(input()))
+train_carts.reverse()
 
 # Longest Increasing/Decreasing Subsequence
 inc = [1]*n
