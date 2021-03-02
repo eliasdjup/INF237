@@ -22,7 +22,7 @@ for i in range (1,n):
 
 
 res=0
-for i in range(0,n): 
+for i in range(0,n):
     res = max((inc[i] + dec[i]), res)
 
 print(res-1)
