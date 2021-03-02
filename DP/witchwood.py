@@ -1,23 +1,22 @@
 
-n, m, k = map(int, input().split())
+N, M, K = map(int, input().split())
+result = 0.0
 
 time_prob = []
-for i in range(m):
+for i in range(M):
     time, prob = map(float, input().split())
     time_prob.append((time,prob))
 
-result = 0.0
 
-# Loop over logs for out cabin
-for i in range(n):
+for i in range(N):
 
-    # Initial (Du kan sikkert endre denne til noe stort også loope over alle m under)
-    temp = (result + time_prob[0][0] + k * time_prob[0][1]) / (1 - time_prob[0][1])
+    # ~~ INF (Største mulige verdi)
+    temp = 10**30
 
-    # Loop over locations
-    for j in range(1, m):
-        loc_cost = (result + time_prob[j][0] + k * time_prob[j][1]) / (1 - time_prob[j][1])
-        temp = min(temp, loc_cost)
+    for j in range(M):
+        local_cost = (result + time_prob[j][0] + K * time_prob[j][1]) / (1 - time_prob[j][1])
+        
+        temp = min(temp, local_cost)
     result = temp
     
 print(result)
