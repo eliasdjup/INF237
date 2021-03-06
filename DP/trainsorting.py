@@ -1,47 +1,34 @@
 
+
 N = int(input())
 
 train_order = []
-for i in range(N):
+for x in range(N):
     train_order.append(int(input()))
+train_order = train_order[::-1]
+
+def LIS():
+    for i in range (1, N): 
+        for j in range(i): 
+            if forward[i] < forward[j]+1 and train_order[i] > train_order[j]:
+                forward[i] = forward[j] + 1
+            
+            if backward[i] < backward[j]+1 and train_order[i] < train_order[j]:
+                backward[i] = backward[j] + 1
 
 
-def LIS(data): 
-    lis = [0] * len(data)
-    lis[0] = 1
-    for i in range (1, len(data)):
-        for j in range(i):
-            if data[j] < data[i]:
-                lis[i] = max(lis[i], lis[j] + 1)
-    return lis
+if __name__ == '__main__':
+    forward = [1]*N
+    backward = [1]*N
+    LIS()
 
-forward = LIS(train_order)
-backwards = list(reversed(LIS(list(reversed(train_order)))))
+    res=0
+    if len(train_order) == 0:
+        res = 1
 
-#print(forward, backwards)
+    for i in range(N):
+        res = max((forward[i] + backward[i]), res)
 
-curr_max = 0
-for i in range(len(forward)):
-    if forward[i] + backwards[i] > curr_max:
-        print(i, forward[i], backwards[i])
-        curr_max = forward[i] + backwards[i]
-print(forward, backwards)
-print(curr_max - 2)
+    print(res-1)
 
 
-
-
-##for i in range(len(forward)):
-
-
-#print(LIS(list(reversed(train_order))))
-
-#print(LIS(train_order) + LIS(list(reversed(train_order))) - 1)
-
-
-5
-2
-5
-1
-4
-3

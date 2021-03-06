@@ -1,4 +1,4 @@
-
+# https://github.com/mohsendb7008/Online-Judge-Solutions/blob/6b85b7d093eed5b13ff34dae1087d56d17f6d8b6/Kattis/witchwood.py
 N, M, K = map(int, input().split())
 result = 0.0
 
