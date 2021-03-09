@@ -46,7 +46,7 @@ def union(u, v):
         comp[r2] = r1
     else:
         comp[r1] = r2
-        rank[r2] += 1 
+        rank[r2] += rank[r1] # Var += 1
 
 queue = []
 edges = sorted(inputs)
@@ -233,6 +233,10 @@ else:
 2
 1 2 1 
 1 3 1
+
+2 1 2
+1 2
+1 2 1
 
 '''
 #print(secures)
