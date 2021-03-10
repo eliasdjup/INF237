@@ -42,6 +42,9 @@ insecure = []
 if p > 0:
     insecure = list(map(int, input().split()))
 
+secures = list(range(1, n+1))
+[secures.remove(x) for x in insecure]
+
 for i in range(m):
     b1, b2, c = map(int, input().split())
     inputs.append((b1, b2, c))
@@ -62,16 +65,26 @@ for i in inputs:
         network_cost += c
 
 
+if len(secures) != 0:
+    first = secures[0]
+    for i in secures:
+        if find(first) != find(i):
+            print("impossible")
+            sys.exit()
+
 for (b1, b2, c) in insecure_edges:
     if find(b1) != find(b2) and (not (b1 in insecure and b2 in insecure)):
         union(b1, b2)
         network_cost += c
+
 
 if len(insecure) == n: # all nodes are insecure
     for (b1, b2, c) in inputs:
         if find(b1) != find(b2):
             union(b1, b2)
             network_cost += c
+
+
 
 for i in range(1, n+1):
     if find(1) != find(i): # Not all buildings included in network
