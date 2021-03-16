@@ -1,8 +1,14 @@
-def update(BIT, i, val):
-    while i < len(BIT):
-        print(i)
-        BIT[i] += val
-        i += -i & i
+def update(BIT, i, val, op=sum)):
+    BIT[i] = val
+    while (i := parent(i)) > 0:
+        BIT[i] = op((BIT[left(idx)],BIT[right(idx)]))
+
+
+def fill(BIT, op=sum):
+    internal = range(1, len(tree) // 2)
+    for idx in reversed(internal): # internal nodes backwards
+    tree[idx] = op((tree[left(idx)],
+    tree[right(idx)]))
 
 
 
