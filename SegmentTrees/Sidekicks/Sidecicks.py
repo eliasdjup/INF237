@@ -31,6 +31,9 @@ n,q = [int(x) for x in input().split()]
 gem_values = [int(x) for x in input().split()]
 gems = [(int(x)) for x in input().split(sep=None)[0]]
 
+print(gem_values)
+print(gems)
+
 trees=[]
 for i in range(6):
     trees.append(BIT(n+1))
