@@ -43,36 +43,3 @@ for _ in range(K + Q):
     if inp[0] == '?':
         X = int(inp[1:])
         query(X)
-
-'''
-10 1 1
-! 0 10 10
-? 5
-
-
-
-
- # Trivial solution
-N, K, Q = map(int, input().split())
-register = [0]*(N+1)
-
-def update(p):
-    L, R, D = map(int,p[1:].split())
-    length = R - L
-    for i in range(length+1):
-        register[L+i] += D
-
-
-def query(q):
-    X = int(q[1:])
-    print(register[X])
-
-for _ in range(K + Q):
-    inp = input()
-
-    if inp[0] == '!':
-        update(inp)
-    if inp[0] == '?':
-        query(inp)
-
-'''
