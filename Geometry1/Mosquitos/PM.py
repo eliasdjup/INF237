@@ -1,5 +1,4 @@
 import math
-import math
 
 class Point:
     def __init__(self,x,y):
@@ -18,7 +17,9 @@ class Point:
             return None
 
         mid_centre = math.sqrt(l)
-        radians = math.atan2(self.x - other.x, self.y - other.y)
+
+        # Theta from polar coordinates
+        radians = math.atan2(self.x - other.x, other.y - self.y) #Here i did the mistake of taking self.y - other.y, which does not give the middle point
 
         return Point(mid_centre * math.cos(radians) + mid.x, mid_centre * math.sin(radians) + mid.y)
 
@@ -28,10 +29,7 @@ class Point:
     def __repr__(self):
         return "("+str(self.x)+", "+str(self.y)+")"
 
-
-
 n = int(input())
-
 
 for _ in range(n):
     input()
@@ -51,13 +49,15 @@ for _ in range(n):
         for b in range(m):
             temp_res = 0
 
+            #print("---------------------------")
             cntr = points[a].center(points[b],r)
+            #print(cntr)
 
             if cntr is None:
                 continue
 
-            for k in range(m):
-                p_dist = cntr.dist(points[k])
+            for c in range(m):
+                p_dist = cntr.dist(points[c])
                 if (p_dist <= r):
                     temp_res += 1
  
