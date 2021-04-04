@@ -1,43 +1,4 @@
-
-def getGpsPoints_(pos, gpsTime):
-    points = []
-    start_x, start_y, start_t= pos[0]
-    leftover_time = 0
-    diff_x, diff_y = 0, 0
-
-    for (x,y,t) in pos[1:]:
-
-        # Line between start and p. (Line information, slope per t)
-        diff_t = t - start_t
-
-        diff_x = (x - start_x) # Change in x in current line segment.
-        diff_y = (y - start_y) # Change in y in current line segment.
-        
-        steps = (diff_t - leftover_time) // gpsTime
-        if steps == 0:
-            continue
-
-        # Find first point on line based on "leftover"-t
-        start_x, start_y = start_x + diff_x*leftover_time/diff_t, start_y + diff_y*leftover_time/diff_t
-        points.append((start_x, start_y, -1))
-
-        leftover_time = diff_t
-
-
-
-
-        for i in range(steps):
-            new_x = start_x + diff_x * i
-            new_y = start_y + diff_y * i
-            points.append((new_x, new_y, -1))
-            leftover_time -= gpsTime
-
-        # Update start = p
-        start_x, start_y, start_t = x, y, t
-
-    #print(points)
-    return points
-
+# cat .\Geometry1\GPS\sample1.in | python .\Geometry1\GPS\GPS.py
 
 def getGpsPoints(positions, stepsize):
     ''' Calculate points based on GPS refresh-rate '''
@@ -87,25 +48,15 @@ def runDist(pos):
 n, t = map(int, input().split())
 positions = [list(map(int,input().split())) for _ in range(n)]
 last_t = positions[-1][2]
-#print(last_t)
-#print(runDist(positions,t))
-
-#print(runDist(getGpsPoints(positions, t)))
-
-p1 = (0,0,0)
-p2 = (0,5,5)
 
 
 def list_generator(l):
     return iter(l)
 
-print(getGpsPoints(positions, t))
 
 actual = runDist(positions)
 gps = runDist(getGpsPoints(positions, t))
 
-print("Gps", gps)
-print("Actual", actual)
 print(((actual - gps) / actual) * 100)
 
 
@@ -119,6 +70,45 @@ print(((actual - gps) / actual) * 100)
 #print(positions[1:])
 
 '''
+
+def getGpsPoints_(pos, gpsTime):
+    points = []
+    start_x, start_y, start_t= pos[0]
+    leftover_time = 0
+    diff_x, diff_y = 0, 0
+
+    for (x,y,t) in pos[1:]:
+
+        # Line between start and p. (Line information, slope per t)
+        diff_t = t - start_t
+
+        diff_x = (x - start_x) # Change in x in current line segment.
+        diff_y = (y - start_y) # Change in y in current line segment.
+        
+        steps = (diff_t - leftover_time) // gpsTime
+        if steps == 0:
+            continue
+
+        # Find first point on line based on "leftover"-t
+        start_x, start_y = start_x + diff_x*leftover_time/diff_t, start_y + diff_y*leftover_time/diff_t
+        points.append((start_x, start_y, -1))
+
+        leftover_time = diff_t
+
+
+
+
+        for i in range(steps):
+            new_x = start_x + diff_x * i
+            new_y = start_y + diff_y * i
+            points.append((new_x, new_y, -1))
+            leftover_time -= gpsTime
+
+        # Update start = p
+        start_x, start_y, start_t = x, y, t
+
+    #print(points)
+    return points
 def calcPointsOnLine(p1, p2, t_curr, t):
 
     points = []

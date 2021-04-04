@@ -42,7 +42,6 @@ for _ in range(n):
     for _ in range(m):
         x, y = [float(x) for x in input().split()]
         points.append(Point(x,y))
-
     res = 0
 
     for a in range(m):
@@ -51,7 +50,6 @@ for _ in range(n):
 
             #print("---------------------------")
             cntr = points[a].center(points[b],r)
-            #print(cntr)
 
             if cntr is None:
                 continue
