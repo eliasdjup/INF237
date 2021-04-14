@@ -1,91 +1,54 @@
-#Minimal Independant set
+# Spatial Resource Allocation
+# Minimal dominant set
 
-import random
+def graphSets(g, size, current, s, v, picked, num_nodes):
+    if s == v:
+        return True
 
-def graphSets(graph):
+    temp_set = g[current] | s
 
-    # Base cases
-    if(len(graph) == 0):
-        return []
-    if(len(graph) == 1):
-        return [list(graph.keys())[0]]
-      
-    # Selecting vertex
-    vCurrent = list(graph.keys())[0]
-
-    # Removing the current vertex from the MIS
-    graph2 = dict(graph)
-    del graph2[vCurrent]
+    if temp_set == v:
+        return True
     
-    # Recursive call
-    #res1 = graphSets(graph2)
+    if picked+1 == size:
+        return False
+        
+    for next_node in range(current+1, num_nodes):
+        if graphSets(g, size, next_node,temp_set,v, picked+1, num_nodes):
+            return True
     
-    # Deleting neighbours
-    for v in graph[vCurrent]:
-        if(v in graph2):
-            del graph2[v]
-    
-    # Recursive call without neighbours
-    res2 = [vCurrent] + graphSets(graph2)
-    
-    # Returning the minimal independant set
-    #if(len(res1) < len(res2)):
-    #    return res1
-    return res2
-  
+    return False
 
 cases = int(input())
   
 for c in range(cases):
     graph = dict([])
-    v = int(input())
-    e = []
+    num_nodes = int(input())
 
-    unconnected = 0
-    for i in range(1,v+1):
+    graph = []
+    for i in range(0,num_nodes):
         lst = [int(x) for x in input().split()]
+        neigh = list(map(lambda x: x - 1, lst[1:]))
 
-        # Handling unconnected nodes
-        if lst[0] == 0:
-            unconnected +=1
-            graph[i] = []
-            continue
+        bit_mask = ['0']*num_nodes
+        bit_mask[i] = '1'
 
-        for friend in lst[1:]:
-            e.append((i,friend))
+        for n in neigh:
+            bit_mask[n] = '1'
 
-    # Graph creation
-    for i in range(len(e)):
-        v1, v2 = e[i]
-        
-        if(v1 not in graph):
-            graph[v1] = []
-        if(v2 not in graph):
-            graph[v2] = []
-        
-        graph[v1].append(v2)
+        graph.append(int("".join(bit_mask),2))
+    
+    cont = True
 
-    # Testing V raandom combinations with one of the vertexes as nodes, 
-    # i found this to give the correct answer, 
-    # and did not take as much time as checking all permutations
-    ret = []
-    for i in range(v*30):
-        reslist =[]
-        for i in range(1,v+1):
-            save = graph.copy()
-            tempgraph = dict([])
-            tempgraph[i] = graph[i]
-            del save[i]
+    for size in range(1,num_nodes):
+        if not cont:
+            break
+        for node in range(num_nodes):
+            if not cont:
+                break
+            if graphSets(graph, size, node, 0, int('1'*num_nodes,2), 0, num_nodes):
+                print(size)
+                cont = False
 
-
-            l = list(save.items())
-            random.shuffle(l)
-            s = dict(l)
-            tempgraph.update(s)
-            
-            MIS = graphSets(tempgraph)
-
-            reslist.append(len(MIS))
-        ret.append(min(reslist))
-
-    print(min(ret))
+    if cont == True:
+        print(num_nodes)
