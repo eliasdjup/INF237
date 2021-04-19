@@ -1,63 +1,54 @@
-def graphSets(graph):
+# Spatial Resource Allocation
+# Minimal dominant set
 
-    if(len(graph) == 0):
-        return []
-     
-    if(len(graph) == 1):
-        return [list(graph.keys())[0]]
-      
-    vCurrent = list(graph.keys())[0]
-      
-    graph2 = dict(graph)
+def graphSets(g, size, current, s, v, picked, num_nodes):
+    if s == v:
+        return True
 
-    del graph2[vCurrent]
-      
-    res1 = graphSets(graph2)
-      
-    for v in graph[vCurrent]:
-          
-        if(v in graph2):
-            del graph2[v]
-      
+    temp_set = g[current] | s
 
-    res2 = [vCurrent] + graphSets(graph2)
-      
-    if(len(res1) > len(res2)):
-        return res1
-    return res2
-  
+    if temp_set == v:
+        return True
+    
+    if picked+1 == size:
+        return False
+        
+    for next_node in range(current+1, num_nodes):
+        if graphSets(g, size, next_node,temp_set,v, picked+1, num_nodes):
+            return True
+    
+    return False
 
 cases = int(input())
   
 for c in range(cases):
-    users = int(input())
+    graph = dict([])
+    num_nodes = int(input())
 
-    edges = []
-
-    for i in range(1,users+1):
+    graph = []
+    for i in range(0,num_nodes):
         lst = [int(x) for x in input().split()]
+        neigh = list(map(lambda x: x - 1, lst[1:]))
 
-        for friend in lst[1:]:
-            edges.append((i,friend))
+        bit_mask = ['0']*num_nodes
+        bit_mask[i] = '1'
 
+        for n in neigh:
+            bit_mask[n] = '1'
 
+        graph.append(int("".join(bit_mask),2))
+    
+    cont = True
 
-  
-graph = dict([])
-  
+    for size in range(1,num_nodes):
+        if not cont:
+            break
+        for node in range(num_nodes):
+            if not cont:
+                break
+            if graphSets(graph, size, node, 0, int('1'*num_nodes,2), 0, num_nodes):
+                print(size)
+                cont = False
 
-for i in range(len(edges)):
-    v1, v2 = edges[i]
-      
-    if(v1 not in graph):
-        graph[v1] = []
-    if(v2 not in graph):
-        graph[v2] = []
-      
-    graph[v1].append(v2)
-    graph[v2].append(v1)
-  
-
-MIS = graphSets(graph)
-  
-for res in MIS: print(res)
+    if cont == True:
+        print(num_nodes)
