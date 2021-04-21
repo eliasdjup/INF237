@@ -14,6 +14,7 @@ for i in range(N):
         adj[i].append(ln[j])
         root[ln[j]] = False
 
+
 for i in range(N):
     if root[i]:
         r = i
@@ -21,6 +22,7 @@ for i in range(N):
 
 down = [0]*N
 up = [0]*N
+
 
 def fill(current):
     if adj[current] == []:
