@@ -1,26 +1,69 @@
 
+from collections import deque
 
-def printGraph(graph):
-    for row in graph:
-        print(row)
+class Graph():
+    def __init__(self, graph):
+        self.R = graph
+        self.V = [i for i in range(len(graph))]
+
+    def addEdge(self, a, b, c):
+        self.R[a-1][b-1] += c
+        self.R[b-1][a-1] += c
+    
+edges = lambda p: zip(p, p[1:])
+
+def create_path(parents, start, target):
+    path = [target]
+    while target != start:
+        target = parents[target]
+        path.append(target)
+    return tuple(reversed(path))
+
+def bfs(graph, start, target):
+    q = deque([start])
+    parents = dict()
+    while q:
+        v = q.popleft()
+        for u in graph.V:
+            if u in parents:
+                continue
+            if graph.R[v][u] <= 0:
+                continue
+            parents[u] = v
+            q.append(u)
+            if u == target:
+                return create_path(parents, start, target)
+
+def maxflow(graph, start, target):
+    flow = 0
+    P = bfs(graph, start, target)
+    while P != None:
+        F = min(graph.R[v][u] for (v, u) in edges(P))
+        flow += F
+        for i in range(1, len(P)):
+            v, u = P[i - 1], P[i]
+            graph.R[v][u] -= F
+            graph.R[u][v] += F
+        P = bfs(graph, start, target)
+    return flow
 
 
-# n = stations, p = initial pipes, k = improvements
-n, p, k = map(int, input().split())
-graph = [[0] * n for i in range(n)]
+def main():  
+    n, p, k = map(int, input().split())
+    g = Graph([[0] * n for _ in range(n)])
 
-for i in range(p):
-    a, b, c = map(int, input().split())
-    graph[b-1][a-1] += c
+    for _ in range(p):
+        a, b, c = map(int, input().split())
+        g.addEdge(a,b,c)
 
+    curr_flow = maxflow(g, 0, 1)
+    print(curr_flow)
 
-for i in range(k):
-    # Capacity between a, b increased by c.
-    a, b, c = map(int, input().split())
-    graph[b-1][a-1] += c
+    for _ in range(k):
+        a, b, c = map(int, input().split())
+        g.addEdge(a,b,c)
+        curr_flow += maxflow(g, 0,1)
+        print(curr_flow)
 
-printGraph(graph)
-# Ford fulkerson for each new connection
-
-# Python program for implementation
-# of Ford Fulkerson algorithm
+if __name__ == '__main__':  
+    main()
