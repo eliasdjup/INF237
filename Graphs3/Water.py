@@ -10,6 +10,7 @@ class Graph():
         self.R[a-1][b-1] += c
         self.R[b-1][a-1] += c
     
+    
 edges = lambda p: zip(p, p[1:])
 
 def create_path(parents, start, target):
@@ -61,9 +62,16 @@ def main():
 
     for _ in range(k):
         a, b, c = map(int, input().split())
+
+        filter_ = g.R[a-1][b-1] == 0 or g.R[b-1][a-1] == 0
         g.addEdge(a,b,c)
-        curr_flow += maxflow(g, 0,1)
+
+        if filter_:
+            curr_flow += maxflow(g, 0, 1)
         print(curr_flow)
+
+        #print(filter_)
+        #print(filter_)
 
 if __name__ == '__main__':  
     main()
