@@ -70,8 +70,6 @@ def main():
             curr_flow += maxflow(g, 0, 1)
         print(curr_flow)
 
-        #print(filter_)
-        #print(filter_)
 
 if __name__ == '__main__':  
     main()
