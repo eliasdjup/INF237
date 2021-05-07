@@ -1,11 +1,11 @@
 import math
 
+#Convex hull - The Graham scan algorithm
+
 def leftturn(p1,p2,p3):
     cross = ((p2[0] - p1[0])*(p3[1] - p1[1])) - ((p2[1] - p1[1])*(p3[0] - p1[0]))
     if cross < 0: return True
     else: return False
-
-
 
 # From lecture 11 Geometry
 def graham(points):
@@ -26,7 +26,7 @@ def graham(points):
             S.pop()
         S.append(p)
 
-    hull += S[1:-1]
+    hull += S[1:]
 
     return hull
 
@@ -45,16 +45,11 @@ while True:
             i = list(zip(i[::2], i[1::2]))
             res_p = graham(i)
 
-            i.append(i[0])
-
-            print(res_p)
-
             res = 0
-            for idx in range(0,len(i)-1):
-                res += dist(i[idx],i[idx+1])
+            for idx in range(0,len(res_p)-1):
+                res += dist(res_p[idx],res_p[idx+1])
 
             print((100*n)/(1+res))
-
 
     except EOFError:
          exit()
