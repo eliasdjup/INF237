@@ -1,56 +1,59 @@
-import math
+import math as m
 
-#The Graham scan
+class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.distance = m.sqrt(self.x * self.x + self.y * self.y)
+    
+    def __repr__(self):
+        return f'Point({self.x}, {self.y})'
 
-def leftturn(p1,p2,p3):
-    cross = ((p2[0] - p1[0])*(p3[1] - p1[1])) - ((p2[1] - p1[1])*(p3[0] - p1[0]))
-    if cross < 0: return True
-    else: return False
+    def __lt__(self, other):
+        if self.x > other.x:
+            return False
+        if self.x == other.x:
+            if self.y > other.y:
+                return False
+        return True
+    
+    def __eq__(self, other):
+        return self.x == other.x and self.y == other.y
 
-# From lecture 11 Geometry
-def graham(points):
 
-    points.sort(key=lambda x:[x[0],x[1]])
+def pointLine(current, prev1, prev2):
+    v1 = Point(prev1.x - prev2.x, prev1.y - prev2.y)
+    v2 = Point(current.x - prev2.x, current.y - prev2.y)
 
-    S, hull = [], []
+    return v1.x * v2.y - v1.y * v2.x
 
-    for p in points:
-        while len(S) >= 2 and leftturn(S[-2], S[-1], p):
-            S.pop()
-        S.append(p)
-    hull += S
+c = int(input())
 
-    S = []
-    for p in reversed(points):
-        while len(S) >= 2 and leftturn(S[-2], S[-1], p):
-            S.pop()
-        S.append(p)
+for case in range(c):
+    inp = [int(x) for x in input().split()]
 
-    hull += S[1:]
+    n = inp[0]
 
-    return hull
+    cor = []
 
-def dist(p1,p2):
-    return math.hypot(p2[0] - p1[0], p2[1] - p1[1])
+    for x in range(1,len(inp),2):
+        cor.append(Point(inp[x],inp[x+1]))
+    
+    points = sorted(cor)
+    polygon = []
 
-while True:
-    try:
-        i = [float(x) for x in input().split(" ")]
-        n = int(len(i)/2)
+    for i in range(len(points)):
+        while len(polygon) >=2 and (pointLine(points[i], polygon[-1], polygon[-2]) > 0):
+            polygon.pop()
+  
+        polygon.append(points[i])
 
-        if n == 1:
-            print(float(100))
+    for i in range(len(points)-1,-1,-1):
+        if points[i] not in polygon:
+            polygon.append(points[i])
 
-        else:
-            i = list(zip(i[::2], i[1::2]))
-            res_p = graham(i)
+    res = []
+    for r in polygon:
+        res.append(cor.index(r))
 
-            res = 0
-            for idx in range(0,len(res_p)-1):
-                res += dist(res_p[idx],res_p[idx+1])
-
-            print((100*n)/(1+res))
-
-    except EOFError:
-         exit()
-
+    print(*res)
