@@ -3,6 +3,7 @@
         "iostream": "cpp"
     },
     "java.project.sourcePaths": [
-        "Geometry2/Polygon"
+        "Geometry2/Polygon",
+        "Strings/C"
     ]
 }
